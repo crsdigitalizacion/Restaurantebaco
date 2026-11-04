@@ -497,6 +497,10 @@ h2 { font-size: clamp(3.5rem, 15vw, 7.5rem); }
 .formulario :focus-visible { outline-color: var(--grafito); }
 .campo { display: grid; align-content: start; gap: .3rem; min-width: 0; }
 .campo--ancho { grid-column: 1 / -1; }
+/* En móvil la fecha va sola: Safari le da un ancho propio y no debe chocar con nada. */
+.campo--fecha,
+.campo--menu { grid-column: 1 / -1; }
+.campo--fecha { overflow: hidden; }
 .campo label { font-size: 1.0625rem; font-weight: 600; line-height: 1.25; }
 .campo input:not([type='checkbox']),
 .campo select,
@@ -961,6 +965,8 @@ h2 { font-size: clamp(3.5rem, 15vw, 7.5rem); }
   }
   .reserva h2 { font-size: clamp(4rem, 7vw, 6.5rem); }
   .formulario { gap: 1.25rem 1rem; margin-top: 0; padding: 2.25rem 2.5rem 2.5rem; }
+  .campo--fecha,
+  .campo--menu { grid-column: auto; }
 
   .pie {
     grid-template-columns: 2fr 2fr 1fr 1.4fr;
