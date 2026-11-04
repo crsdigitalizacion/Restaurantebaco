@@ -513,6 +513,18 @@ h2 { font-size: clamp(3.5rem, 15vw, 7.5rem); }
 }
 .campo input:not([type='checkbox']),
 .campo select { height: 3rem; }
+.campo select { padding-inline: .5rem .25rem; }
+/* La fecha trae un ancho mínimo del navegador que la sacaba de su columna en móvil. */
+.campo input[type='date'] {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  padding-inline: .5rem;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.campo input[type='date']::-webkit-date-and-time-value { min-width: 0; text-align: left; }
+.campo input[type='date']::-webkit-calendar-picker-indicator { margin-inline-start: 0; padding: 0; }
 .campo textarea { resize: vertical; line-height: 1.35; }
 .campo--casilla { grid-template-columns: auto 1fr; align-items: center; gap: .6rem; }
 .campo--casilla input { width: 1.5rem; height: 1.5rem; margin: 0; accent-color: var(--pimenton); }
@@ -782,6 +794,8 @@ h2 { font-size: clamp(3.5rem, 15vw, 7.5rem); }
 
 /* Móvil pequeño ------------------------------------------------------------ */
 @media (max-width: 22.4rem) {
+  .campo input[type='date'],
+  .campo select { font-size: .9375rem; }
   .barra { font-size: 1.15rem; }
   .portada__acciones .boton { font-size: 1.2rem; }
 }

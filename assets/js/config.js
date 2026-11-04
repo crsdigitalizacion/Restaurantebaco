@@ -9,7 +9,7 @@ window.CUCHARA = {
   firma: 'by Javi Sierra', // pone null si no debe aparecer
 
   // Dirección de la web, sin barra final. Cambiarla al tener dominio propio.
-  dominio: 'https://crsdigitalizacion.github.io/restaurantebaco',
+  dominio: 'https://crsdigitalizacion.github.io/Restaurantebaco',
 
   telefono: {
     enlace: '+34698965692',
