@@ -376,7 +376,33 @@
     };
     entrada.addEventListener('click', cerrar);
     window.addEventListener('keydown', cerrar, { once: true });
-    window.setTimeout(cerrar, 1100);
+    window.setTimeout(cerrar, 850);
+  }
+
+  /* Al ir a otra sección de la web, la cortina se cierra antes de cambiar de página. */
+  function prepararCortinaSalida() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.addEventListener('click', (evento) => {
+      const enlace = evento.target.closest('a[href]');
+      if (!enlace || evento.defaultPrevented) return;
+      if (evento.metaKey || evento.ctrlKey || evento.shiftKey || enlace.target || enlace.hasAttribute('download')) return;
+      const destino = new URL(enlace.href);
+      const interno = destino.origin === location.origin && destino.pathname.endsWith('.html');
+      if (!interno || destino.pathname === location.pathname) return;
+      evento.preventDefault();
+      const cortina = crear('div', 'cortina-salida');
+      cortina.setAttribute('aria-hidden', 'true');
+      cortina.append(
+        crear('span', 'entrada__telon entrada__telon--izquierda'),
+        crear('span', 'entrada__telon entrada__telon--derecha'),
+      );
+      document.body.append(cortina);
+      window.setTimeout(() => { location.href = enlace.href; }, 300);
+    });
+    // Al volver con Atrás, la página guardada no debe seguir con la cortina cerrada.
+    window.addEventListener('pageshow', (evento) => {
+      if (evento.persisted) todos('.cortina-salida').forEach((cortina) => cortina.remove());
+    });
   }
 
   /* Las fotos aparecen al llegar a ellas. Sin soporte o pidiendo menos movimiento,
@@ -452,5 +478,6 @@
   pintarFondo();
   prepararApariciones();
   cerrarEntrada();
+  prepararCortinaSalida();
   prepararScroll();
 })();

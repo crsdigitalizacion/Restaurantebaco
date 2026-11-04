@@ -15,27 +15,12 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/league-gothic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/alegreya.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/styles.css?v=3">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
   <script>
-    /* El navegador puede saltarse la transición entre páginas, sobre todo la primera
-       vez que carga una: entonces la página entra con un fundido. Va aquí porque
-       el aviso llega antes que el JavaScript del final de la página. */
-    addEventListener('pagereveal', function (evento) {
-      var transicion = evento.viewTransition;
-      var fundir = function () { document.documentElement.classList.add('fundido'); };
-      if (!transicion) { fundir(); return; }
-      transicion.ready.catch(fundir);
-      transicion.finished.catch(function () {});
-    });
-  </script>
-  <script>
-    /* Entrada: solo la primera vez en cada sesión y sin pedir reducir el movimiento. */
-    try {
-      if (!sessionStorage.getItem('cuchara-entrada') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.classList.add('con-entrada');
-        sessionStorage.setItem('cuchara-entrada', '1');
-      }
-    } catch (e) {}
+    /* Cortina al entrar en cada sección, salvo si se ha pedido reducir el movimiento. */
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('con-entrada');
+    }
   </script>
 </head>
 <body class="inicio">

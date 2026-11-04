@@ -178,7 +178,7 @@ h2 { font-size: clamp(3.5rem, 15vw, 7.5rem); }
   .boton--linea-clara:hover { background: var(--azulejo); border-color: var(--azulejo); color: var(--grafito); }
 }
 
-/* Entrada de la portada: el telón se abre hacia la foto del local. */
+/* Cortina de cada sección: se cierra al salir y se abre al llegar. */
 .entrada { display: none; }
 .con-entrada .entrada {
   display: block;
@@ -194,7 +194,7 @@ h2 { font-size: clamp(3.5rem, 15vw, 7.5rem); }
   bottom: 0;
   width: 50.5%;
   background: var(--grafito);
-  animation: telon .55s cubic-bezier(.76, 0, .24, 1) .42s forwards;
+  animation: telon .48s cubic-bezier(.76, 0, .24, 1) .3s forwards;
 }
 .entrada__telon--izquierda { left: 0; --salida: -100%; }
 .entrada__telon--derecha { right: 0; --salida: 100%; }
@@ -210,9 +210,18 @@ h2 { font-size: clamp(3.5rem, 15vw, 7.5rem); }
   letter-spacing: .03em;
   text-align: center;
   text-transform: uppercase;
-  animation: nombre .85s ease forwards;
+  animation: nombre .62s ease forwards;
 }
 @keyframes telon { to { transform: translateX(var(--salida)); } }
+.cortina-salida {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.cortina-salida .entrada__telon { animation: telon-cierra .3s cubic-bezier(.76, 0, .24, 1) both; }
+@keyframes telon-cierra { from { transform: translateX(var(--salida)); } }
 @keyframes nombre {
   0% { opacity: 0; transform: translateY(.3em); }
   30%, 55% { opacity: 1; transform: none; }
@@ -722,23 +731,6 @@ h2 { font-size: clamp(3.5rem, 15vw, 7.5rem); }
 .hoja__pie .boton { width: 100%; margin-top: 1.25rem; }
 .hoja__carta { display: block; margin-top: 1.25rem; }
 
-/* Transición entre páginas. La cabecera y la barra se quedan quietas; el contenido
-   sale y entra. Sin soporte, la página simplemente aparece con un fundido. */
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition { navigation: auto; }
-  .cabecera { view-transition-name: cabecera; }
-  .barra { view-transition-name: barra; }
-  ::view-transition-old(root) { animation: pagina-sale .2s ease both; }
-  ::view-transition-new(root) { animation: pagina-entra .42s var(--ease) both; }
-  @keyframes pagina-sale { to { opacity: 0; transform: translateY(-.75rem); } }
-  @keyframes pagina-entra { from { opacity: 0; transform: translateY(1.5rem); } }
-  .fundido main { animation: pagina-fundido .35s ease both; }
-  @supports not (view-transition-name: a) {
-    main { animation: pagina-fundido .35s ease both; }
-  }
-  @keyframes pagina-fundido { from { opacity: 0; } }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
   /* Único momento coreografiado en CSS: entra el título; el fondo va aparte.
@@ -747,7 +739,7 @@ h2 { font-size: clamp(3.5rem, 15vw, 7.5rem); }
   .titulo__linea:nth-of-type(2) { animation-delay: .08s; }
   .titulo__linea:nth-of-type(3) { animation-delay: .16s; }
   .con-entrada .titulo__linea,
-  .con-entrada .titulo__la { animation-delay: .5s; }
+  .con-entrada .titulo__la { animation-delay: .35s; }
   @keyframes titulo { from { transform: translateY(.07em); } }
 
   /* Pase de fotos: 4 fotos, 7 s cada una. Cada foto entra sobre la anterior y
